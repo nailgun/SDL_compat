@@ -24,6 +24,7 @@
 
 #include "SDL.h"
 #include "SDL_syswm.h"
+#include "../include/SDL_compat.h"
 
 #include "video/SDL_sysvideo.h"
 #include "video/SDL_pixels_c.h"
@@ -217,45 +218,45 @@ SDL_CompatEventFilter(void *userdata, SDL_Event * event)
             */
             if (SDL_VideoWindow && !(SDL_GetWindowFlags(SDL_VideoWindow) & SDL_WINDOW_FULLSCREEN)) {
                 fake.type = SDL_VIDEORESIZE;
-                fake.resize.w = event->window.data1;
-                fake.resize.h = event->window.data2;
+                SDL_EVENT_GET_RESIZE(&fake)->w = event->window.data1;
+                SDL_EVENT_GET_RESIZE(&fake)->h = event->window.data2;
                 SDL_PushEvent(&fake);
             }
             break;
         case SDL_WINDOWEVENT_MINIMIZED:
             fake.type = SDL_ACTIVEEVENT;
-            fake.active.gain = 0;
-            fake.active.state = SDL_APPACTIVE;
+            SDL_EVENT_GET_ACTIVE(&fake)->gain = 0;
+            SDL_EVENT_GET_ACTIVE(&fake)->state = SDL_APPACTIVE;
             SDL_PushEvent(&fake);
             break;
         case SDL_WINDOWEVENT_RESTORED:
             fake.type = SDL_ACTIVEEVENT;
-            fake.active.gain = 1;
-            fake.active.state = SDL_APPACTIVE;
+            SDL_EVENT_GET_ACTIVE(&fake)->gain = 1;
+            SDL_EVENT_GET_ACTIVE(&fake)->state = SDL_APPACTIVE;
             SDL_PushEvent(&fake);
             break;
         case SDL_WINDOWEVENT_ENTER:
             fake.type = SDL_ACTIVEEVENT;
-            fake.active.gain = 1;
-            fake.active.state = SDL_APPMOUSEFOCUS;
+            SDL_EVENT_GET_ACTIVE(&fake)->gain = 1;
+            SDL_EVENT_GET_ACTIVE(&fake)->state = SDL_APPMOUSEFOCUS;
             SDL_PushEvent(&fake);
             break;
         case SDL_WINDOWEVENT_LEAVE:
             fake.type = SDL_ACTIVEEVENT;
-            fake.active.gain = 0;
-            fake.active.state = SDL_APPMOUSEFOCUS;
+            SDL_EVENT_GET_ACTIVE(&fake)->gain = 0;
+            SDL_EVENT_GET_ACTIVE(&fake)->state = SDL_APPMOUSEFOCUS;
             SDL_PushEvent(&fake);
             break;
         case SDL_WINDOWEVENT_FOCUS_GAINED:
             fake.type = SDL_ACTIVEEVENT;
-            fake.active.gain = 1;
-            fake.active.state = SDL_APPINPUTFOCUS;
+            SDL_EVENT_GET_ACTIVE(&fake)->gain = 1;
+            SDL_EVENT_GET_ACTIVE(&fake)->state = SDL_APPINPUTFOCUS;
             SDL_PushEvent(&fake);
             break;
         case SDL_WINDOWEVENT_FOCUS_LOST:
             fake.type = SDL_ACTIVEEVENT;
-            fake.active.gain = 0;
-            fake.active.state = SDL_APPINPUTFOCUS;
+            SDL_EVENT_GET_ACTIVE(&fake)->gain = 0;
+            SDL_EVENT_GET_ACTIVE(&fake)->state = SDL_APPINPUTFOCUS;
             SDL_PushEvent(&fake);
             break;
         case SDL_WINDOWEVENT_CLOSE:
@@ -278,7 +279,7 @@ SDL_CompatEventFilter(void *userdata, SDL_Event * event)
                 }
             }
             if (unicode) {
-                event->key.keysym.unicode = unicode;
+                event->key.keysym.unused = unicode;
             }
             break;
         }

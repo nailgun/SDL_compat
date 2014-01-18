@@ -30,25 +30,14 @@
  *  This file contains functions for backwards compatibility with SDL 1.2.
  */
 
-/**
- *  \def SDL_NO_COMPAT
- *
- *  #define SDL_NO_COMPAT to prevent SDL_compat.h from being included.
- *  SDL_NO_COMPAT is intended to make it easier to covert SDL 1.2 code to
- *  SDL 1.3/2.0.
- */
-
  /*@}*/
-
-#ifdef SDL_NO_COMPAT
-#define _SDL_compat_h
-#endif
 
 #ifndef _SDL_compat_h
 #define _SDL_compat_h
 
 #include "SDL_video.h"
 #include "SDL_version.h"
+#include "SDL_compat_events.h"
 
 #include "begin_code.h"
 /* Set up for C function definitions, even when using C++ */
